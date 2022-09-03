@@ -50,7 +50,6 @@ getCountryData('france');
 ////////////////////////////
 // Call back hell
 
-/*
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
@@ -74,6 +73,8 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
+
+/*
 
 const getCountryAndNeighbour = function (countryName) {
   const request = new XMLHttpRequest();
@@ -122,3 +123,49 @@ setTimeout(() => {
 
 ////////////////////////////
 // Promise and fetch API
+
+// const request = new XMLHttpRequest();
+// request.open('GET', 'https://restcountries.com/v3.1/name/nigeria');
+// request.send()
+
+//////////// Expanded form
+// const getCountryData = function (countryName) {
+//   fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+//     .then(function (response) {
+//       console.log(response);
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       console.log(data[0]);
+//       renderCountry(data[0]);
+//     });
+// };
+
+//////////// Compressed form
+const getCountryData = function (countryName) {
+  fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
+};
+
+// getCountryData('nigeria');
+
+const getCountryAndNeighbour = function (countryName) {
+  fetch(`https://restcountries.com/v3.1/name/${countryName}`).then(
+    response =>
+      response
+        .json()
+        .then(data => {
+          renderCountry(data[0]);
+
+          const [neighbour] = data[0].borders;
+
+          return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+        })
+        .then(response => response.json())
+        .then(data => renderCountry(data[0], 'neighbour'))
+    // Flat chain of promises
+  );
+};
+
+getCountryAndNeighbour('spain');
