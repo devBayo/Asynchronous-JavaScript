@@ -122,3 +122,10 @@ setTimeout(() => {
 
 ////////////////////////////
 // Promise and fetch API
+
+// const request = new XMLHttpRequest();
+// request.open('GET', 'https://restcountries.com/v3.1/name/nigeria');
+// request.send()
+
+const request = fetch('https://restcountries.com/v3.1/name/nigeria');
+console.log(request);
