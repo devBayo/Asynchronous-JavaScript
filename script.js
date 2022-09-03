@@ -5,6 +5,7 @@ const countriesContainer = document.querySelector('.countries');
 
 ////////////////////////////////////////
 /* Old way of fetching data */
+/*
 const getCountryData = function (countryName) {
   const request = new XMLHttpRequest();
   request.open('GET', `https://restcountries.com/v3.1/name/${countryName}`);
@@ -42,3 +43,5 @@ getCountryData('nigeria');
 getCountryData('gb');
 getCountryData('france');
 // getCountryData('germany');
+
+*/
