@@ -164,7 +164,7 @@ const getCountryAndNeighbour = function (countryName) {
     })
     .then(response => response.json())
     .then(data => renderCountry(data[0], 'neighbour'))
-    .catch(err => console.log(err + '!!'));
+    .catch(err => console.error(err.message + '!!'));
   // Flat chain of promises
 };
 
