@@ -128,16 +128,24 @@ setTimeout(() => {
 // request.open('GET', 'https://restcountries.com/v3.1/name/nigeria');
 // request.send()
 
+//////////// Expanded form
+// const getCountryData = function (countryName) {
+//   fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+//     .then(function (response) {
+//       console.log(response);
+//       return response.json();
+//     })
+//     .then(function (data) {
+//       console.log(data[0]);
+//       renderCountry(data[0]);
+//     });
+// };
+
+//////////// Compressed form
 const getCountryData = function (countryName) {
   fetch(`https://restcountries.com/v3.1/name/${countryName}`)
-    .then(function (response) {
-      console.log(response);
-      return response.json();
-    })
-    .then(function (data) {
-      console.log(data[0]);
-      renderCountry(data[0]);
-    });
+    .then(response => response.json())
+    .then(data => renderCountry(data[0]));
 };
 
 getCountryData('nigeria');
