@@ -1,4 +1,4 @@
-'use strict';
+// 'use strict';
 
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
@@ -150,6 +150,7 @@ setTimeout(() => {
 //     });
 // };
 
+/*
 const getJSON = function (url, errorMsg = 'Something went wrong') {
   return fetch(url).then(response => {
     console.log(response);
@@ -199,4 +200,24 @@ btn.addEventListener('click', function () {
   // getCountryAndNeighbour('spain');
   getCountryAndNeighbour('australia');
   // getCountryAndNeighbour('dfdfdfdfdf');
+});
+*/
+
+const apiKey = '692147774437302351127x20223';
+
+const whereAmI = function (lat, lng) {
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${apiKey}`)
+    .then(response => response.json())
+    .then(data => {
+      if (!data.matches) throw new Error(`Couldn't find your location!!`);
+      console.log(data);
+      console.log(
+        `You are in ${data.standard.city}, ${data.standard.countryname}`
+      );
+    })
+    .catch(err => console.log(err.message));
+};
+
+btn.addEventListener('click', function () {
+  whereAmI(0, 'aaa');
 });
