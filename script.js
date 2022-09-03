@@ -149,6 +149,15 @@ setTimeout(() => {
 //     });
 // };
 
+const getJSON = function (url, errorMsg = 'Something went wrong') {
+  return fetch(url).then(response => {
+    console.log(response);
+
+    if (!response.ok) throw new Error(`${errorMsg} (${response.status})`);
+    return response.json();
+  });
+};
+
 //////////// Compressed form
 const getCountryData = function (countryName) {
   fetch(`https://restcountries.com/v3.1/name/${countryName}`)
@@ -159,14 +168,7 @@ const getCountryData = function (countryName) {
 // getCountryData('nigeria');
 
 const getCountryAndNeighbour = function (countryName) {
-  fetch(`https://restcountries.com/v3.1/name/${countryName}`)
-    .then(response => {
-      console.log(response);
-
-      if (!response.ok)
-        throw new Error(`Country not found (${response.status})`);
-      return response.json();
-    })
+  getJSON(`https://restcountries.com/v3.1/name/${countryName}`)
     .then(data => {
       renderCountry(data[0]);
       const [neighbour] = data[0].borders;
@@ -184,6 +186,6 @@ const getCountryAndNeighbour = function (countryName) {
 };
 
 btn.addEventListener('click', function () {
-  // getCountryAndNeighbour('spain');
-  getCountryAndNeighbour('dfdfdfdfdf');
+  getCountryAndNeighbour('spain');
+  // getCountryAndNeighbour('dfdfdfdfdf');
 });
