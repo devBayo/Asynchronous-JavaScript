@@ -100,5 +100,19 @@ const getCountryAndNeighbour = function (countryName) {
   });
 };
 
-getCountryAndNeighbour('nigeria');
+// getCountryAndNeighbour('nigeria');
 getCountryAndNeighbour('usa');
+
+// Typical call back hell structure
+setTimeout(() => {
+  console.log('1 second passed');
+  setTimeout(() => {
+    console.log('2 second passed');
+    setTimeout(() => {
+      console.log('3 second passed');
+      setTimeout(() => {
+        console.log('4 second passed');
+      }, 1000);
+    }, 1000);
+  }, 1000);
+}, 1000);
