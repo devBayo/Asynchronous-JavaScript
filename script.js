@@ -171,4 +171,6 @@ const getCountryAndNeighbour = function (countryName) {
   );
 };
 
-getCountryAndNeighbour('spain');
+btn.addEventListener('click', function () {
+  getCountryAndNeighbour('spain');
+});
