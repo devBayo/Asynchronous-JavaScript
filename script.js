@@ -50,6 +50,7 @@ getCountryData('france');
 ////////////////////////////
 // Call back hell
 
+/*
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
@@ -116,3 +117,8 @@ setTimeout(() => {
     }, 1000);
   }, 1000);
 }, 1000);
+
+*/
+
+////////////////////////////
+// Promise and fetch API
