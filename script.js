@@ -39,4 +39,6 @@ const getCountryData = function (countryName) {
 };
 
 getCountryData('nigeria');
-getCountryData('egypt');
+getCountryData('gb');
+getCountryData('france');
+// getCountryData('germany');
