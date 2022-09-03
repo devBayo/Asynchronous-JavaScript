@@ -208,13 +208,16 @@ const apiKey = '655654471209471894991x27536';
 const whereAmI = function (lat, lng) {
   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${apiKey}`)
     .then(response => response.json())
-    .then(data =>
+    .then(data => {
+      if (!data.matches) throw new Error(`Couldn't find your location!!`);
+      console.log(data);
       console.log(
         `You are in ${data.standard.city}, ${data.standard.countryname}`
-      )
-    );
+      );
+    })
+    .catch(err => console.log(err.message));
 };
 
 btn.addEventListener('click', function () {
-  whereAmI(0, 0);
+  whereAmI(0, 'aaa');
 });
