@@ -160,7 +160,13 @@ const getCountryData = function (countryName) {
 
 const getCountryAndNeighbour = function (countryName) {
   fetch(`https://restcountries.com/v3.1/name/${countryName}`)
-    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+      return response.json();
+    })
     .then(data => {
       renderCountry(data[0]);
       const [neighbour] = data[0].borders;
@@ -171,7 +177,7 @@ const getCountryAndNeighbour = function (countryName) {
     .then(data => renderCountry(data[0], 'neighbour'))
     .catch(err => {
       console.error(err.message + '!!');
-      renderError(err + '!!');
+      renderError(err.message + '!!');
     })
     .finally(() => (countriesContainer.style.opacity = 1));
   // Flat chain of promises
