@@ -148,4 +148,22 @@ const getCountryData = function (countryName) {
     .then(data => renderCountry(data[0]));
 };
 
-getCountryData('nigeria');
+// getCountryData('nigeria');
+
+const getCountryAndNeighbour = function (countryName) {
+  fetch(`https://restcountries.com/v3.1/name/${countryName}`).then(response =>
+    response
+      .json()
+      .then(data => {
+        renderCountry(data[0]);
+
+        const [neighbour] = data[0].borders;
+
+        return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+      })
+      .then(response => response.json())
+      .then(data => renderCountry(data[0], 'neighbour'))
+  );
+};
+
+getCountryAndNeighbour('spain');
