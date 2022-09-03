@@ -203,7 +203,7 @@ btn.addEventListener('click', function () {
 });
 */
 
-const apiKey = '655654471209471894991x27536';
+const apiKey = '692147774437302351127x20223';
 
 const whereAmI = function (lat, lng) {
   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${apiKey}`)
