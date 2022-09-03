@@ -9,6 +9,7 @@ const renderError = function (msg) {
 };
 
 const renderCountry = function (data, className = '') {
+  console.log(data);
   const html = `
   <article class="country ${className}">
     <img class="country__img" src="${data.flags.png}" />
@@ -174,8 +175,10 @@ const getCountryAndNeighbour = function (countryName) {
   )
     .then(data => {
       renderCountry(data[0]);
-      const [neighbour] = data[0].borders;
+      const neighbour = data[0].borders ? data[0].borders[0] : undefined;
       // const neighbour = 'ssssssss';
+
+      if (!neighbour) throw new Error('No neighbour found');
 
       // return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
       return getJSON(
@@ -193,6 +196,7 @@ const getCountryAndNeighbour = function (countryName) {
 };
 
 btn.addEventListener('click', function () {
-  getCountryAndNeighbour('spain');
+  // getCountryAndNeighbour('spain');
+  getCountryAndNeighbour('australia');
   // getCountryAndNeighbour('dfdfdfdfdf');
 });
