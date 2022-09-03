@@ -88,6 +88,9 @@ const getCountryAndNeighbour = function (countryName) {
     renderCountry(data);
 
     const [neighbour] = data.borders;
+
+    if(!neighbour) return;
+
     console.log(neighbour);
 
     const request2 = new XMLHttpRequest();
