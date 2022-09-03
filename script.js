@@ -151,18 +151,20 @@ const getCountryData = function (countryName) {
 // getCountryData('nigeria');
 
 const getCountryAndNeighbour = function (countryName) {
-  fetch(`https://restcountries.com/v3.1/name/${countryName}`).then(response =>
-    response
-      .json()
-      .then(data => {
-        renderCountry(data[0]);
+  fetch(`https://restcountries.com/v3.1/name/${countryName}`).then(
+    response =>
+      response
+        .json()
+        .then(data => {
+          renderCountry(data[0]);
 
-        const [neighbour] = data[0].borders;
+          const [neighbour] = data[0].borders;
 
-        return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
-      })
-      .then(response => response.json())
-      .then(data => renderCountry(data[0], 'neighbour'))
+          return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+        })
+        .then(response => response.json())
+        .then(data => renderCountry(data[0], 'neighbour'))
+    // Flat chain of promises
   );
 };
 
