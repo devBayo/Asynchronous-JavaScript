@@ -50,7 +50,6 @@ getCountryData('france');
 ////////////////////////////
 // Call back hell
 
-/*
 const renderCountry = function (data, className = '') {
   const html = `
   <article class="country ${className}">
@@ -74,6 +73,8 @@ const renderCountry = function (data, className = '') {
   countriesContainer.insertAdjacentHTML('beforeend', html);
   countriesContainer.style.opacity = 1;
 };
+
+/*
 
 const getCountryAndNeighbour = function (countryName) {
   const request = new XMLHttpRequest();
@@ -127,5 +128,16 @@ setTimeout(() => {
 // request.open('GET', 'https://restcountries.com/v3.1/name/nigeria');
 // request.send()
 
-const request = fetch('https://restcountries.com/v3.1/name/nigeria');
-console.log(request);
+const getCountryData = function (countryName) {
+  fetch(`https://restcountries.com/v3.1/name/${countryName}`)
+    .then(function (response) {
+      console.log(response);
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data[0]);
+      renderCountry(data[0]);
+    });
+};
+
+getCountryData('nigeria');
