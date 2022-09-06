@@ -196,12 +196,15 @@ const getCountryAndNeighbour = function (countryName) {
   // Flat chain of promises
 };
 
-btn.addEventListener('click', function () {
+bt
+n.addEventListener('click', function () {
   // getCountryAndNeighbour('spain');
   getCountryAndNeighbour('australia');
   // getCountryAndNeighbour('dfdfdfdfdf');
 });
 */
+
+/*
 
 const apiKey = '692147774437302351127x20223';
 
@@ -217,15 +220,18 @@ const whereAmI = function (lat, lng) {
     .then(response => {
       if (!response.ok)
         throw new Error(`Couldn't find your Country ${response.status}`);
-      return response.json();
-    })
-    .then(data => renderCountry(data[0]))
-    .catch(err => console.log(err.message))
-    .finally((countriesContainer.style.opacity = 1));
-};
-
-btn.addEventListener('click', function () {
-  whereAmI(52.508, 13.381);
+        return response.json();
+      })
+      .then(data => renderCountry(data[0]))
+      .catch(err => console.log(err.message))
+      .finally((countriesContainer.style.opacity = 1));
+    };
+    
+    btn.addEventListener('click', function () {
+      whereAmI(52.508, 13.381);
   whereAmI(19.037, 72.873);
   whereAmI(-33.933, 18.474);
 });
+
+*/
+
