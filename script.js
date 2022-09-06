@@ -205,26 +205,27 @@ btn.addEventListener('click', function () {
 
 const apiKey = '692147774437302351127x20223';
 
-const getCountry = function (countryName) {};
-
 const whereAmI = function (lat, lng) {
   fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${apiKey}`)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
-      if (data.error) throw new Error(`Couldn't find your location!!`);
+      if (data.error) throw new Error("Couldn't find your location");
       console.log(`You are in ${data.city}, ${data.country}`);
 
       return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Couldn't find your Country ${response.status}`);
+      return response.json();
+    })
     .then(data => renderCountry(data[0]))
     .catch(err => console.log(err.message))
     .finally((countriesContainer.style.opacity = 1));
 };
 
 btn.addEventListener('click', function () {
-  // whereAmI(52.508, 13.381);
-  // whereAmI(19.037, 72.873);
+  whereAmI(52.508, 13.381);
+  whereAmI(19.037, 72.873);
   whereAmI(-33.933, 18.474);
 });
