@@ -237,7 +237,14 @@ const whereAmI = function (lat, lng) {
 
 //// Buidling a simple Promise
 const lotteryPromise = new Promise(function (resolve, reject) {
-  if (Math.random() >= 0.5) {
-    resolve();
+  const lottery = Math.random();
+  if (lottery >= 0.5) {
+    resolve('You WIN, :) ' + lottery.toFixed(2));
+  } else {
+    reject(new Error('You lose, LOL!!! ' + lottery.toFixed(2)));
   }
 });
+
+lotteryPromise
+  .then(response => console.log(response))
+  .catch(err => console.error(err.message + '.'));
