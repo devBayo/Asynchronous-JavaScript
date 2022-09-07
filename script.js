@@ -325,6 +325,7 @@ btn.addEventListener('click', whereAmI);
 
 ////////
 //Challenge 2
+/*
 
 let img;
 const images = document.querySelector('.images');
@@ -370,3 +371,9 @@ createImage('img/img-1.jpg')
     return wait(2);
   })
   .catch(err => console.error(err.message));
+
+*/
+
+
+////////
+// Consuming Promises Async-Await
