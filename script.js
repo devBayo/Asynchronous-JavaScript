@@ -382,24 +382,36 @@ const getPosition = function () {
   });
 };
 
-
 const whereAmI = async function () {
-  // Geolocation
-  const pos = await getPosition();
-  const { latitude: lat, longitude: lng } = pos.coords;
+  try {
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
 
-  // Geocode Api
-  const geoRes = await fetch(
-    `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
-  );
-  const geoData = await geoRes.json();
+    // Geocode Api
+    const geoRes = await fetch(
+      `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
+    );
 
-  // Rest Country API
-  const res = await fetch(
-    `https://restcountries.com/v3.1/name/${geoData.country}`
-  );
-  const [data] = await res.json();
-  renderCountry(data);
+    if (!geoRes.ok) throw new Error('Problem getting data');
+
+    const geoData = await geoRes.json();
+
+    // Rest Country API
+    const res = await fetch(
+      `https://restcountries.com/v3.1/name/${geoData.country}`
+    );
+
+    if (!res.ok) throw new Error('Problem getting country');
+
+    const [data] = await res.json();
+    renderCountry(data);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
+whereAmI();
+whereAmI();
+whereAmI();
 whereAmI();
