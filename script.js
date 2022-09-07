@@ -196,17 +196,110 @@ const getCountryAndNeighbour = function (countryName) {
   // Flat chain of promises
 };
 
-btn.addEventListener('click', function () {
+bt
+n.addEventListener('click', function () {
   // getCountryAndNeighbour('spain');
   getCountryAndNeighbour('australia');
   // getCountryAndNeighbour('dfdfdfdfdf');
 });
 */
 
-const apiKey = '692147774437302351127x20223';
+/*
 
 const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${apiKey}`)
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`)
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) throw new Error("Couldn't find your location");
+      console.log(`You are in ${data.city}, ${data.country}`);
+
+      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Couldn't find your Country ${response.status}`);
+        return response.json();
+      })
+      .then(data => renderCountry(data[0]))
+      .catch(err => console.log(err.message))
+      .finally((countriesContainer.style.opacity = 1));
+    };
+    
+    btn.addEventListener('click', function () {
+      whereAmI(52.508, 13.381);
+  whereAmI(19.037, 72.873);
+  whereAmI(-33.933, 18.474);
+});
+
+*/
+
+//// Buidling a simple Promise
+/*
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Lottery draw is happening');
+  const lottery = Math.random();
+  setTimeout(function () {
+    if (lottery >= 0.5) {
+      resolve('You WIN, :) ' + lottery.toFixed(2));
+    } else {
+      reject(new Error('You lose, LOL!!! ' + lottery.toFixed(2)));
+    }
+  }, 0);
+});
+
+lotteryPromise
+.then(response => console.log(response))
+.catch(err => console.error(err.message + '.'));
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+wait(1)
+  .then(() => {
+    console.log('1 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 seconds passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 seconds passed');
+    return wait(1);
+  })
+  .then(() => console.log('4 seconds passed'));
+  
+  Promise.resolve('1').then(res => console.log(res));
+  Promise.reject('error').catch(err => console.log(err));  
+  */
+
+////////////
+// Promisifying Geolocation API
+console.log('Getting Position');
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    // navigator.geolocation.getCurrentPosition(
+    //   position => resolve(position),
+    //   err => reject(err)
+    // );
+
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+// getPosition().then(res => console.log(res));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      return fetch(
+        `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
+      );
+    })
     .then(response => response.json())
     .then(data => {
       if (data.error) throw new Error("Couldn't find your location");
@@ -224,8 +317,4 @@ const whereAmI = function (lat, lng) {
     .finally((countriesContainer.style.opacity = 1));
 };
 
-btn.addEventListener('click', function () {
-  whereAmI(52.508, 13.381);
-  whereAmI(19.037, 72.873);
-  whereAmI(-33.933, 18.474);
-});
+btn.addEventListener('click', whereAmI);
