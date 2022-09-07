@@ -206,10 +206,8 @@ n.addEventListener('click', function () {
 
 /*
 
-const apiKey = '692147774437302351127x20223';
-
 const whereAmI = function (lat, lng) {
-  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=${apiKey}`)
+  fetch(`https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`)
     .then(response => response.json())
     .then(data => {
       if (data.error) throw new Error("Couldn't find your location");
@@ -292,4 +290,31 @@ const getPosition = function () {
   });
 };
 
-getPosition().then(res => console.log(res));
+// getPosition().then(res => console.log(res));
+
+const whereAmI = function () {
+  getPosition()
+    .then(pos => {
+      const { latitude: lat, longitude: lng } = pos.coords;
+      return fetch(
+        `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
+      );
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.error) throw new Error("Couldn't find your location");
+      console.log(`You are in ${data.city}, ${data.country}`);
+
+      return fetch(`https://restcountries.com/v3.1/name/${data.country}`);
+    })
+    .then(response => {
+      if (!response.ok)
+        throw new Error(`Couldn't find your Country ${response.status}`);
+      return response.json();
+    })
+    .then(data => renderCountry(data[0]))
+    .catch(err => console.log(err.message))
+    .finally((countriesContainer.style.opacity = 1));
+};
+
+btn.addEventListener('click', whereAmI);
