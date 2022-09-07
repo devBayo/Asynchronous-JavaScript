@@ -245,9 +245,32 @@ const lotteryPromise = new Promise(function (resolve, reject) {
     } else {
       reject(new Error('You lose, LOL!!! ' + lottery.toFixed(2)));
     }
-  }, 2000);
+  }, 0);
 });
 
 lotteryPromise
   .then(response => console.log(response))
   .catch(err => console.error(err.message + '.'));
+
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+wait(1)
+  .then(() => {
+    console.log('1 second passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('2 seconds passed');
+    return wait(1);
+  })
+  .then(() => {
+    console.log('3 seconds passed');
+    return wait(1);
+  })
+  .then(() => console.log('4 seconds passed'));
+
+Promise.resolve('1').then(res => console.log(res));
+Promise.reject('error').catch(err => console.log(err));
