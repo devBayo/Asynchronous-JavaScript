@@ -277,6 +277,8 @@ wait(1)
 
 ////////////
 // Promisifying Geolocation API
+
+/*
 console.log('Getting Position');
 
 const getPosition = function () {
@@ -318,3 +320,10 @@ const whereAmI = function () {
 };
 
 btn.addEventListener('click', whereAmI);
+
+*/
+
+
+////////
+//Challenge 2
+
