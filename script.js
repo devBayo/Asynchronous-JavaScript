@@ -325,6 +325,7 @@ btn.addEventListener('click', whereAmI);
 
 ////////
 //Challenge 2
+
 let img;
 const images = document.querySelector('.images');
 const createImage = function (imgPath) {
