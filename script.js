@@ -5,11 +5,10 @@ const countriesContainer = document.querySelector('.countries');
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforebegin', msg);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderCountry = function (data, className = '') {
-  console.log(data);
   const html = `
   <article class="country ${className}">
     <img class="country__img" src="${data.flags.png}" />
@@ -30,7 +29,7 @@ const renderCountry = function (data, className = '') {
 `;
 
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 ////////////////////////////////////////
@@ -374,6 +373,30 @@ createImage('img/img-1.jpg')
 
 */
 
-
 ////////
 // Consuming Promises Async-Await
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+
+const whereAmI = async function () {
+  
+  const pos = await getPosition();
+  const { latitude: lat, longitude: lng } = pos.coords;
+  const geoRes = await fetch(
+    `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
+  );
+  const geoData = await geoRes.json();
+
+  const res = await fetch(
+    `https://restcountries.com/v3.1/name/${geoData.country}`
+  );
+  const [data] = await res.json();
+  renderCountry(data);
+};
+
+whereAmI();
