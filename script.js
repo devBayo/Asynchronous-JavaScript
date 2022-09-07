@@ -279,8 +279,13 @@ wait(1)
 
 ////////////
 // Promisifying Geolocation API
-navigator.geolocation.getCurrentPosition(
-  position => console.log(position),
-  err => console.log(err)
-);
-console.log('Getting Position')
+console.log('Getting Position');
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      position => console.log(position),
+      err => console.log(err)
+    );
+  });
+};
