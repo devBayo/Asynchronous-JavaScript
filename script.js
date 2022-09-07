@@ -337,7 +337,7 @@ const createImage = function (imgPath) {
       resolve(img);
     });
     img.addEventListener('error', function () {
-      reject(new Error("Couldn't fetch image"));
+      reject(new Error('Image not found'));
     });
   });
 };
