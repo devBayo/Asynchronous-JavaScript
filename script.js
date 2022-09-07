@@ -384,14 +384,17 @@ const getPosition = function () {
 
 
 const whereAmI = async function () {
-  
+  // Geolocation
   const pos = await getPosition();
   const { latitude: lat, longitude: lng } = pos.coords;
+
+  // Geocode Api
   const geoRes = await fetch(
     `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
   );
   const geoData = await geoRes.json();
 
+  // Rest Country API
   const res = await fetch(
     `https://restcountries.com/v3.1/name/${geoData.country}`
   );
