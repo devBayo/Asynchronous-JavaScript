@@ -342,6 +342,31 @@ const createImage = function (imgPath) {
   });
 };
 
+const wait = function (seconds) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, seconds * 1000);
+  });
+};
+
 createImage('img/img-1.jpg')
-  .then(res => console.dir(res))
+  .then(res => {
+    console.log(res, 'Image 1');
+    return wait(2);
+  })
+  .then(() => {
+    img.style.display = 'none';
+    return createImage('img/img-2.jpg');
+  })
+  .then(res => {
+    console.log(res, 'Image 2');
+    return wait(2);
+  })
+  .then(() => {
+    img.style.display = 'none';
+    return createImage('img/img-3.jpg');
+  })
+  .then(res => {
+    console.log(res, 'Image 3');
+    return wait(2);
+  })
   .catch(err => console.error(err.message));
