@@ -323,7 +323,24 @@ btn.addEventListener('click', whereAmI);
 
 */
 
-
 ////////
 //Challenge 2
+let img;
+const images = document.querySelector('.images');
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    img = document.createElement('img');
+    img.src = imgPath;
+    img.addEventListener('load', function () {
+      images.append(img);
+      resolve(img);
+    });
+    img.addEventListener('error', function () {
+      reject(new Error("Couldn't fetch image"));
+    });
+  });
+};
 
+createImage('img/img-1.jpg')
+  .then(res => console.dir(res))
+  .catch(err => console.error(err.message));
