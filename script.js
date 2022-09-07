@@ -236,6 +236,7 @@ const whereAmI = function (lat, lng) {
 */
 
 //// Buidling a simple Promise
+/*
 const lotteryPromise = new Promise(function (resolve, reject) {
   console.log('Lottery draw is happening');
   const lottery = Math.random();
@@ -249,8 +250,8 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 });
 
 lotteryPromise
-  .then(response => console.log(response))
-  .catch(err => console.error(err.message + '.'));
+.then(response => console.log(response))
+.catch(err => console.error(err.message + '.'));
 
 const wait = function (seconds) {
   return new Promise(function (resolve) {
@@ -271,6 +272,9 @@ wait(1)
     return wait(1);
   })
   .then(() => console.log('4 seconds passed'));
+  
+  Promise.resolve('1').then(res => console.log(res));
+  Promise.reject('error').catch(err => console.log(err));  
+  */
 
-Promise.resolve('1').then(res => console.log(res));
-Promise.reject('error').catch(err => console.log(err));
+  
