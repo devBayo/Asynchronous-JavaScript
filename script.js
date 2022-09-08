@@ -382,8 +382,9 @@ const getPosition = function () {
   });
 };
 
-const whereAmI = async function () {
+const whereAmI = async function (country) {
   try {
+    /*
     // Geolocation
     const pos = await getPosition();
     const { latitude: lat, longitude: lng } = pos.coords;
@@ -394,24 +395,41 @@ const whereAmI = async function () {
     );
 
     if (!geoRes.ok) throw new Error('Problem getting data');
-
     const geoData = await geoRes.json();
+    console.log(geoData);
+    console.log(geoData.country);
+    */
 
     // Rest Country API
-    const res = await fetch(
-      `https://restcountries.com/v3.1/name/${geoData.country}`
-    );
+    const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
 
     if (!res.ok) throw new Error('Problem getting country');
 
     const [data] = await res.json();
+    console.log(data);
     renderCountry(data);
+    return `You are in ${data.name.common}, ${data.region}`;
   } catch (err) {
     console.log(err);
+    throw err;
   }
 };
 
-whereAmI();
-whereAmI();
-whereAmI();
-whereAmI();
+console.log('1, Getting your location');
+
+// whereAmI('nigeia')
+//   .then(res => console.log(res))
+//   .catch(err => console.log(err));
+(async function () {
+  try {
+    const val = await whereAmI('germany');
+    console.log(val);
+  } catch (err) {
+    console.log(err.message);
+  }
+})();
+
+// console.log(test);
+// whereAmI();
+// whereAmI();
+// whereAmI();
