@@ -5,11 +5,10 @@ const countriesContainer = document.querySelector('.countries');
 
 const renderError = function (msg) {
   countriesContainer.insertAdjacentText('beforebegin', msg);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 const renderCountry = function (data, className = '') {
-  console.log(data);
   const html = `
   <article class="country ${className}">
     <img class="country__img" src="${data.flags.png}" />
@@ -30,7 +29,7 @@ const renderCountry = function (data, className = '') {
 `;
 
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  // countriesContainer.style.opacity = 1;
+  countriesContainer.style.opacity = 1;
 };
 
 ////////////////////////////////////////
@@ -325,6 +324,7 @@ btn.addEventListener('click', whereAmI);
 
 ////////
 //Challenge 2
+/*
 
 let img;
 const images = document.querySelector('.images');
@@ -370,3 +370,66 @@ createImage('img/img-1.jpg')
     return wait(2);
   })
   .catch(err => console.error(err.message));
+
+*/
+
+////////
+// Consuming Promises Async-Await
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(resolve, reject);
+  });
+};
+
+const whereAmI = async function (country) {
+  try {
+    /*
+    // Geolocation
+    const pos = await getPosition();
+    const { latitude: lat, longitude: lng } = pos.coords;
+
+    // Geocode Api
+    const geoRes = await fetch(
+      `https://geocode.xyz/${lat},${lng}?geoit=json&auth=692147774437302351127x20223`
+    );
+
+    if (!geoRes.ok) throw new Error('Problem getting data');
+    const geoData = await geoRes.json();
+    console.log(geoData);
+    console.log(geoData.country);
+    */
+
+    // Rest Country API
+    const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+
+    if (!res.ok) throw new Error('Problem getting country');
+
+    const [data] = await res.json();
+    console.log(data);
+    renderCountry(data);
+    return `You are in ${data.name.common}, ${data.region}`;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+console.log('1, Getting your location');
+
+// whereAmI('nigeia')
+//   .then(res => console.log(res))
+//   .catch(err => console.log(err));
+(async function () {
+  try {
+    const val = await whereAmI('germany');
+    console.log(val);
+  } catch (err) {
+    console.log(err.message);
+  }
+})();
+
+// console.log(test);
+// whereAmI();
+// whereAmI();
+// whereAmI();
