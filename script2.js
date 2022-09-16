@@ -99,3 +99,22 @@ Promise.allSettled doesn't short circuit
     console.warn(error);
   }
 })();
+
+//// Promise.any
+/*
+Promise.any returns only the first resolved promised and ignores all rejected promise 
+-- Similar to Promies.race
+*/
+(async function () {
+  try {
+    const response = await Promise.allSettled([
+      Promise.resolve('Resolved 1'),
+      Promise.reject('Error'),
+      Promise.resolve('Resolved 2'),
+    ]);
+
+    console.log(response);
+  } catch (error) {
+    console.warn(error);
+  }
+})();
