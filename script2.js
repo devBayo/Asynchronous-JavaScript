@@ -38,3 +38,45 @@ get3Countries('nigeria', 'ghana', 'russia');
 -Promise.allSettled
 -Promise.any
 */
+
+//// Promise.race
+
+(async function () {
+  const response = await Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/nigeria`),
+    getJSON(`https://restcountries.com/v3.1/name/ghana`),
+    getJSON(`https://restcountries.com/v3.1/name/russia`),
+  ]);
+
+  console.log(response[0].capital);
+})();
+
+const timeout = function (seconds) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request took too long'));
+    }, seconds * 1000);
+  });
+};
+
+// (async function () {
+//   try {
+//     await timeout(3);
+//   } catch (error) {
+//     console.warn(error.message);
+//   }
+// })();
+
+//// Promise.race real life application
+(async function () {
+  try {
+    const response = await Promise.race([
+      getJSON(`https://restcountries.com/v3.1/name/nigeria`),
+      timeout(0.7),
+    ]);
+
+    console.log(response[0].capital);
+  } catch (err) {
+    console.warn(err.message);
+  }
+})();
