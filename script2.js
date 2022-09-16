@@ -30,3 +30,11 @@ const get3Countries = async function (c1, c2, c3) {
 };
 
 get3Countries('nigeria', 'ghana', 'russia');
+
+/*
+-- Promise combinators
+-Promise.all
+-Promise.race
+-Promise.allSettled
+-Promise.any
+*/
