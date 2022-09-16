@@ -103,7 +103,7 @@ Promise.allSettled doesn't short circuit
 //// Promise.any
 /*
 Promise.any returns only the first resolved promised and ignores all rejected promise 
--- Similar to Promies.race
+-- Similar to Promies.race but ignores rejected Promise
 */
 (async function () {
   try {
