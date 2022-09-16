@@ -75,7 +75,7 @@ const timeout = function (seconds) {
   try {
     const response = await Promise.race([
       getJSON(`https://restcountries.com/v3.1/name/nigeria`),
-      timeout(0.7),
+      timeout(2),
     ]);
 
     console.log(response[0].capital);
@@ -102,10 +102,12 @@ Promise.allSettled doesn't short circuit
   }
 })();
 
-//// Promise.any
 /*
+Promise.any
+
 Promise.any returns only the first resolved promised and ignores all rejected promise 
--- Similar to Promies.race but ignores rejected Promise
+Similar to Promies.race but ignores rejected Promise
+
 */
 (async function () {
   try {
@@ -118,5 +120,42 @@ Promise.any returns only the first resolved promised and ignores all rejected pr
     console.log(response);
   } catch (error) {
     console.warn(error);
+  }
+})();
+
+/* Challenge 3 */
+const wait = function (second) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, second * 1000);
+  });
+};
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+    img.addEventListener('load', function () {
+      document.querySelector('.images').append(img);
+      resolve(img);
+    });
+    img.addEventListener('error', function () {
+      reject(Error("Couldn't find image at '" + imgPath + "'"));
+    });
+  });
+};
+
+(async function () {
+  try {
+    const img1 = await createImage('img/img-1.jpg');
+    await wait(2);
+    img1.remove();
+    await wait(1);
+    const img2 = await createImage('img/img-2.jpg');
+    await wait(2);
+    img2.remove();
+    await wait(1);
+    await createImage('img/img-3.jpg');
+  } catch (error) {
+    console.warn(error.message);
   }
 })();
