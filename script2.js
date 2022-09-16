@@ -168,12 +168,12 @@ const loadAll = async function (imgArr) {
   try {
     await wait(1);
 
-    const imgs = imgArr.map(img => createImage(img));
-    const results = await Promise.allSettled(imgs);
-    results.forEach(result => result.value.classList.add('parallel'));
+    const imgs = imgArr.map(async img => await createImage(img));
+    const imgEl = await Promise.all(imgs);
+    imgEl.forEach(el => el.classList.add('parallel'));
   } catch (error) {
     console.warn(error.message);
   }
 };
 
-// loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
