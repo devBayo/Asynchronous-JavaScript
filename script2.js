@@ -124,6 +124,7 @@ Similar to Promies.race but ignores rejected Promise
 })();
 
 /* Challenge 3 */
+// Part 1
 const wait = function (second) {
   return new Promise(function (resolve) {
     setTimeout(resolve, second * 1000);
@@ -144,7 +145,7 @@ const createImage = function (imgPath) {
   });
 };
 
-(async function () {
+const run = async function () {
   try {
     const img1 = await createImage('img/img-1.jpg');
     await wait(2);
@@ -158,4 +159,21 @@ const createImage = function (imgPath) {
   } catch (error) {
     console.warn(error.message);
   }
-})();
+};
+
+// run();
+
+// Part 2
+const loadAll = async function (imgArr) {
+  try {
+    await wait(1);
+
+    const imgs = imgArr.map(img => createImage(img));
+    const results = await Promise.allSettled(imgs);
+    results.forEach(result => result.value.classList.add('parallel'));
+  } catch (error) {
+    console.warn(error.message);
+  }
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
