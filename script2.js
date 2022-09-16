@@ -24,6 +24,8 @@ const get3Countries = async function (c1, c2, c3) {
     console.log(data.map(d => d[0].capital[0]));
   } catch (error) {
     console.log(error.message);
+  } finally {
+    console.log('End of execution...');
   }
 };
 
