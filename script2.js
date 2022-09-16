@@ -41,7 +41,9 @@ get3Countries('nigeria', 'ghana', 'russia');
 */
 
 //// Promise.race
-
+/*
+Returns the first settled Promise
+*/
 (async function () {
   const response = await Promise.race([
     getJSON(`https://restcountries.com/v3.1/name/nigeria`),
@@ -107,9 +109,9 @@ Promise.any returns only the first resolved promised and ignores all rejected pr
 */
 (async function () {
   try {
-    const response = await Promise.allSettled([
-      Promise.resolve('Resolved 1'),
+    const response = await Promise.any([
       Promise.reject('Error'),
+      Promise.resolve('Resolved 1'),
       Promise.resolve('Resolved 2'),
     ]);
 
