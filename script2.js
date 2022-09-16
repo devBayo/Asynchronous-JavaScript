@@ -14,6 +14,7 @@ const get3Countries = async function (c1, c2, c3) {
     // const [data3] = await getJSON(`https://restcountries.com/v3.1/name/${c3}`);
 
     // console.log([data1.capital[0], data2.capital[0], data3.capital[0]]);
+    //// Promise.all short circuit one a promise is rejected
 
     const data = await Promise.all([
       getJSON(`https://restcountries.com/v3.1/name/${c1}`),
@@ -23,8 +24,156 @@ const get3Countries = async function (c1, c2, c3) {
 
     console.log(data.map(d => d[0].capital[0]));
   } catch (error) {
-    console.log(error.message);
+    console.warn(error.message);
+  } finally {
+    console.log('End of execution...');
   }
 };
 
 get3Countries('nigeria', 'ghana', 'russia');
+
+/*
+-- Promise combinators
+-Promise.all
+-Promise.race
+-Promise.allSettled
+-Promise.any
+*/
+
+//// Promise.race
+/*
+Returns the first settled Promise
+*/
+(async function () {
+  const response = await Promise.race([
+    getJSON(`https://restcountries.com/v3.1/name/nigeria`),
+    getJSON(`https://restcountries.com/v3.1/name/ghana`),
+    getJSON(`https://restcountries.com/v3.1/name/russia`),
+  ]);
+
+  console.log(response[0].capital);
+})();
+
+const timeout = function (seconds) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error('Request took too long'));
+    }, seconds * 1000);
+  });
+};
+
+// (async function () {
+//   try {
+//     await timeout(3);
+//   } catch (error) {
+//     console.warn(error.message);
+//   }
+// })();
+
+//// Promise.race real life application
+(async function () {
+  try {
+    const response = await Promise.race([
+      getJSON(`https://restcountries.com/v3.1/name/nigeria`),
+      timeout(2),
+    ]);
+
+    console.log(response[0].capital);
+  } catch (err) {
+    console.warn(err.message);
+  }
+})();
+
+//// Promise.allSettled
+/*
+Promise.allSettled doesn't short circuit
+*/
+(async function () {
+  try {
+    const response = await Promise.allSettled([
+      Promise.resolve('Resolved 1'),
+      Promise.reject('Error'),
+      Promise.resolve('Resolved 2'),
+    ]);
+
+    console.log(response);
+  } catch (error) {
+    console.warn(error);
+  }
+})();
+
+/*
+Promise.any
+
+Promise.any returns only the first resolved promised and ignores all rejected promise 
+Similar to Promies.race but ignores rejected Promise
+
+*/
+(async function () {
+  try {
+    const response = await Promise.any([
+      Promise.reject('Error'),
+      Promise.resolve('Resolved 1'),
+      Promise.resolve('Resolved 2'),
+    ]);
+
+    console.log(response);
+  } catch (error) {
+    console.warn(error);
+  }
+})();
+
+/* Challenge 3 */
+// Part 1
+const wait = function (second) {
+  return new Promise(function (resolve) {
+    setTimeout(resolve, second * 1000);
+  });
+};
+
+const createImage = function (imgPath) {
+  return new Promise(function (resolve, reject) {
+    const img = document.createElement('img');
+    img.src = imgPath;
+    img.addEventListener('load', function () {
+      document.querySelector('.images').append(img);
+      resolve(img);
+    });
+    img.addEventListener('error', function () {
+      reject(Error("Couldn't find image at '" + imgPath + "'"));
+    });
+  });
+};
+
+const run = async function () {
+  try {
+    let img = await createImage('img/img-1.jpg');
+    await wait(2);
+    img.remove();
+    await wait(1);
+    img = await createImage('img/img-2.jpg');
+    await wait(2);
+    img.remove();
+    await wait(1);
+    await createImage('img/img-3.jpg');
+  } catch (error) {
+    console.warn(error.message);
+  }
+};
+
+// run();
+
+// Part 2
+const loadAll = async function (imgArr) {
+  try {
+    await wait(1);
+
+    const imgs = imgArr.map(async img => await createImage(img));
+    const imgEl = await Promise.all(imgs);
+    imgEl.forEach(el => el.classList.add('parallel'));
+  } catch (error) {
+    console.warn(error.message);
+  }
+};
+
+loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
