@@ -147,13 +147,13 @@ const createImage = function (imgPath) {
 
 const run = async function () {
   try {
-    const img1 = await createImage('img/img-1.jpg');
+    let img = await createImage('img/img-1.jpg');
     await wait(2);
-    img1.remove();
+    img.remove();
     await wait(1);
-    const img2 = await createImage('img/img-2.jpg');
+    img = await createImage('img/img-2.jpg');
     await wait(2);
-    img2.remove();
+    img.remove();
     await wait(1);
     await createImage('img/img-3.jpg');
   } catch (error) {
@@ -176,4 +176,4 @@ const loadAll = async function (imgArr) {
   }
 };
 
-loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
+// loadAll(['img/img-1.jpg', 'img/img-2.jpg', 'img/img-3.jpg']);
